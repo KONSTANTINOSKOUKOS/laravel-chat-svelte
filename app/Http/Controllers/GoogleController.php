@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -16,6 +15,12 @@ class GoogleController extends Controller
 
     public function callback()
     {
+        // try {
+        //     $user = Socialite::driver('google')->user();
+        // } catch (\GuzzleHttp\Exception\ClientException $e) {
+        //     dd('Here');
+        // }
+
         $googleUser = Socialite::driver('google')->user();
 
         $user = User::updateOrCreate([

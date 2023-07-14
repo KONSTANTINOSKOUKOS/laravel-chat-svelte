@@ -37,7 +37,8 @@
             <img
                 class="rounded-full"
                 alt="{msg.author_name}'s avatar"
-                src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                src={msg.author_avatar_url ??
+                    "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"}
             />
         </figure>
     </div>
