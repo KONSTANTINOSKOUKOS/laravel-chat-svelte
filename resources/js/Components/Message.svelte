@@ -17,7 +17,7 @@
         liked = !liked;
 
         axios.patch(
-            "/messages",
+            "/",
             { liked },
             {
                 headers: {

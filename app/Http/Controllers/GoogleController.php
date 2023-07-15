@@ -15,12 +15,6 @@ class GoogleController extends Controller
 
     public function callback()
     {
-        // try {
-        //     $user = Socialite::driver('google')->user();
-        // } catch (\GuzzleHttp\Exception\ClientException $e) {
-        //     dd('Here');
-        // }
-
         $googleUser = Socialite::driver('google')->user();
 
         $user = User::updateOrCreate([

@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class MessagesController extends Controller
 {
+    public function render($msgs = [], $newMsg = [])
+    {
+        return inertia('Chat', [
+            '_user' => auth()->user(),
+            'messages' => $msgs,
+            'newMsg' => $newMsg
+        ]);
+    }
+
     public function index()
     {
 
@@ -18,10 +27,7 @@ class MessagesController extends Controller
 
         // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($msgs, null, 2);</script>";
 
-        return inertia('Chat', [
-            '_user' => fn () => auth()->user(),
-            'messages' => $msgs
-        ]);
+        return $this->render($msgs, null);
     }
 
     public function store(Request $req)
@@ -37,16 +43,16 @@ class MessagesController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
-        $msg = Message::where('messages.id', $_msg->id)
+        $newMsg = Message::where('messages.id', $_msg->id)
             ->select(['messages.content', 'messages.id', 'users.id as author_id', 'users.name as author_name', 'users.avatar_url as author_avatar_url'])
             ->join('users', 'users.id', '=', 'messages.user_id')
-            ->get();
+            ->first();
 
-        // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($msg, null, 2);</script>";
-        
-        broadcast(new MessageSent($msg))->toOthers();
+        // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($newMsg, null, 2);</script>";
 
-        return redirect('/');
+        // broadcast(new MessageSent($newMsg))->toOthers();
+
+        return $this->render(null, $newMsg);
     }
 
     public function update(Request $req)

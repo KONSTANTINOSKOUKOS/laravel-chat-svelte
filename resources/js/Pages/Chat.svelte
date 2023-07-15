@@ -21,6 +21,14 @@
     export let messages;
     $: $msgs = messages;
 
+    export let newMsg;
+    $: {
+        if (newMsg) {
+            console.log(newMsg);
+            $msgs = [...$msgs, newMsg];
+        }
+    }
+
     function scrollBottom() {
         setTimeout(() => {
             window.scroll(0, 1000000);

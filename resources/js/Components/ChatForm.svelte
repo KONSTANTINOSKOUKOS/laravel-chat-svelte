@@ -15,12 +15,13 @@
     }
 
     async function send() {
-        $form.post("/messages", {
+        $form.post("/", {
             onFinish: () => {
                 $form.reset();
                 scrollBottom();
             },
-            only: ["messages"],
+            only: ["newMsg"],
+            preserveState: true,
         });
     }
 </script>
