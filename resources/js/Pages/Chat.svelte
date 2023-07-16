@@ -13,19 +13,20 @@
      * @type {{name:string, id:string}}
      */
     export let _user;
-    $: $user = _user;
-
     /**
      * @type {{content: string, user_id: string}[]}
      */
     export let messages;
-    $: $msgs = messages;
-
     export let newMsg;
+
     $: {
+        $user = _user;
+
         if (newMsg) {
             console.log(newMsg);
             $msgs = [...$msgs, newMsg];
+        } else {
+            $msgs = messages;
         }
     }
 
