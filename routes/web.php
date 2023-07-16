@@ -4,7 +4,6 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\RegisterController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 /*
@@ -43,11 +42,5 @@ Route::middleware('auth')->group(function () {
 Route::get('/a', function () {
     return Inertia::render('Counter', [
         'count' => -69
-    ]);
-});
-
-Route::get('/b', function () {
-    return Inertia::render('User', [
-        'user' => auth()->user()
     ]);
 });

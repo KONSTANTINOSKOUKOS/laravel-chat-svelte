@@ -1,5 +1,6 @@
 <script>
     import { user } from "@/lib/user";
+    import { scrollBottom } from "@/lib/scroll";
     import { useForm } from "@inertiajs/svelte";
     import UserItem from "@/Components/UserItem.svelte";
 
@@ -8,12 +9,6 @@
         user_id: $user.id,
     });
 
-    function scrollBottom() {
-        setTimeout(() => {
-            window.scroll(0, 1000000);
-        }, 50);
-    }
-
     async function send() {
         $form.post("/", {
             onFinish: () => {
@@ -21,23 +16,37 @@
                 scrollBottom();
             },
             only: ["newMsg"],
-            preserveState: true,
+            preserveScroll: true,
         });
     }
 </script>
 
 <UserItem />
-<div class="max-h-fit fixed bottom-0 flex justify-center w-screen">
+<div class="max-h-fit fixed bottom-0 z-50 flex flex-col w-screen">
+    <button on:click={scrollBottom} class="btn btn-circle btn-accent mx-auto">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="white"
+            viewBox="0 0 16 16"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"
+            />
+        </svg>
+    </button>
     <form
         on:submit|preventDefault={send}
-        class="join w-full md:w-5/12 mx-auto my-4"
+        class="join md:w-5/12 w-full mx-auto my-4"
     >
         <input
             required
             bind:value={$form.content}
             type="text"
             placeholder="say something..."
-            class="placeholder:opacity-80 input w-full focus:outline-0 join-item border-slate-300 z-10 border"
+            class="placeholder:opacity-80 input focus:outline-0 join-item border-slate-300 z-10 w-full border"
         />
         <button type="submit" class="btn btn-primary h-max join-item">
             <svg

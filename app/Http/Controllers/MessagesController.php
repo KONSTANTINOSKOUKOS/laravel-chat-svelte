@@ -50,7 +50,7 @@ class MessagesController extends Controller
 
         // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($newMsg, null, 2);</script>";
 
-        // broadcast(new MessageSent($newMsg))->toOthers();
+        broadcast(new MessageSent($newMsg))->toOthers();
 
         return $this->render(null, $newMsg);
     }

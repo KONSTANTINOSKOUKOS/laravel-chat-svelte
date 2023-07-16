@@ -4,36 +4,21 @@
     import ChatForm from "@/Components/ChatForm.svelte";
     import { msgs } from "@/lib/msgs";
     import { user } from "@/lib/user";
+    import { scrollBottom } from "@/lib/scroll";
 
     import Echo from "@ably/laravel-echo";
     import * as Ably from "ably";
     import { onMount } from "svelte";
 
-    /**
-     * @type {{name:string, id:string}}
-     */
     export let _user;
-    /**
-     * @type {{content: string, user_id: string}[]}
-     */
     export let messages;
     export let newMsg;
 
-    $: {
-        $user = _user;
-
-        if (newMsg) {
-            console.log(newMsg);
-            $msgs = [...$msgs, newMsg];
-        } else {
-            $msgs = messages;
-        }
-    }
-
-    function scrollBottom() {
-        setTimeout(() => {
-            window.scroll(0, 1000000);
-        }, 50);
+    $user = _user;
+    if (newMsg) {
+        $msgs = [...$msgs, newMsg];
+    } else {
+        $msgs = messages;
     }
 
     onMount(() => {
@@ -52,10 +37,8 @@
         });
 
         echo.channel("messages").listen("MessageSent", ({ message }) => {
-            const msg = message[0];
-            console.log("wow something:");
-            console.log(msg);
-            $msgs = [...$msgs, msg];
+            console.log("realtime message:", message);
+            $msgs = [...$msgs, message];
             scrollBottom();
         });
     });
@@ -69,7 +52,7 @@
     />
 </svelte:head>
 <a href="/a" use:inertia>go to /a</a>
-<ul class="my-16">
+<ul class="my-28">
     {#each $msgs as msg}
         <li>
             <Message
