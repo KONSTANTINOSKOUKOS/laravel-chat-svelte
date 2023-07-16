@@ -19,13 +19,9 @@ class MessagesController extends Controller
 
     public function index()
     {
+        $msgs = Message::all();
 
-        $msgs = Message::query()
-            ->select(['messages.content', 'messages.id', 'users.id as author_id', 'users.name as author_name', 'users.avatar_url as author_avatar_url'])
-            ->join('users', 'users.id', '=', 'messages.user_id')
-            ->get();
-
-        // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($msgs, null, 2);</script>";
+        // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify(" . $msgs . ", null, 2);</script>";
 
         return $this->render($msgs, null);
     }
@@ -38,16 +34,10 @@ class MessagesController extends Controller
             'content' => ['required', 'string'],
         ]);
 
-        $_msg = Message::create([
+        $newMsg = Message::create([
             'content' => $req->content,
             'user_id' => auth()->user()->id
         ]);
-
-        $newMsg = Message::where('messages.id', $_msg->id)
-            ->select(['messages.content', 'messages.id', 'users.id as author_id', 'users.name as author_name', 'users.avatar_url as author_avatar_url'])
-            ->join('users', 'users.id', '=', 'messages.user_id')
-            ->first();
-
         // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($newMsg, null, 2);</script>";
 
         broadcast(new MessageSent($newMsg))->toOthers();
