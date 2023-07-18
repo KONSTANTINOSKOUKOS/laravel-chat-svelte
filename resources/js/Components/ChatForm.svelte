@@ -48,7 +48,13 @@
             placeholder="say something..."
             class="placeholder:opacity-80 input focus:outline-0 join-item border-slate-300 z-10 w-full border"
         />
-        <button type="submit" class="btn btn-primary h-max join-item">
+        <button
+            type="submit"
+            disabled={$form.processing}
+            class="btn btn-primary h-max join-item {$form.processing
+                ? 'btn-disabled cursor-not-allowed'
+                : ''}"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\MessageSent;
+// use App\Events\MessageSent;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
@@ -38,9 +38,9 @@ class MessagesController extends Controller
             'content' => $req->content,
             'user_id' => auth()->user()->id
         ]);
-        // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($newMsg, null, 2);</script>";
 
-        broadcast(new MessageSent($newMsg))->toOthers();
+        // return "<pre>ok</pre><script>document.querySelector('pre').textContent=JSON.stringify($newMsg, null, 2);</script>";
+        // broadcast(new MessageSent($newMsg))->toOthers();
 
         return $this->render(null, $newMsg);
     }

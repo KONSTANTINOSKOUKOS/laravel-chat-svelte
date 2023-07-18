@@ -36,9 +36,9 @@
             }
         });
 
-        echo.channel("messages").listen("MessageSent", ({ message }) => {
-            console.log("realtime message:", message);
-            $msgs = [...$msgs, message];
+        echo.channel("messages").listen(".MessageCreated", ({ model }) => {
+            console.log("realtime message:", model);
+            $msgs = [...$msgs, model];
             scrollBottom();
         });
     });

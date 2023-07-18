@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\BroadcastableModelEventOccurred;
 
 class Message extends Model
 {
@@ -43,11 +44,19 @@ class Message extends Model
         ];
     }
 
-    // public function broadcastOn(string $e): array
-    // {
-    //     return match ($e) {
-    //         default => [],
-    //         'created' => [new Channel('messages')]
-    //     };
-    // }
+    public function broadcastOn(string $e): array
+    {
+        return match ($e) {
+            default => [],
+            'created' => [new Channel('messages')]
+        };
+    }
+
+    protected function newBroadcastableEvent(string $event): BroadcastableModelEventOccurred
+    {
+        return (new BroadcastableModelEventOccurred(
+            $this,
+            $event
+        ))->dontBroadcastToCurrentUser();
+    }
 }
