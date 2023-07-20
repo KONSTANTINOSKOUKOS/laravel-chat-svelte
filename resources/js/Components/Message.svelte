@@ -31,7 +31,7 @@
     }
 </script>
 
-<div class="mb-2 chat {ismine() ? 'chat-end' : 'chat-start'}">
+<li class="mb-2 chat {ismine() ? 'chat-end' : 'chat-start'}">
     <div class="chat-image avatar">
         <figure class="w-10">
             <img
@@ -54,4 +54,4 @@
         class="chat-footer btn btn-circle btn-primary text-xl"
         on:click={like}>{liked ? "❤️" : "🤍"}</button
     >
-</div>
+</li>

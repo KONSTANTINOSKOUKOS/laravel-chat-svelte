@@ -54,7 +54,6 @@
 <a href="/a" use:inertia>go to /a</a>
 <ul class="my-28">
     {#each $msgs as msg}
-        <li>
             <Message
                 msg={{
                     content: msg.content,
@@ -64,7 +63,6 @@
                     author_avatar_url: msg.author_avatar_url,
                 }}
             />
-        </li>
     {/each}
 </ul>
 <ChatForm />

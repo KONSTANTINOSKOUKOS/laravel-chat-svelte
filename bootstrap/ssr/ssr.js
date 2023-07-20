@@ -268,10 +268,10 @@ const SSR = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.initialPage(initialPage);
   return `<div data-server-rendered="true"${add_attribute("id", id, 0)}${add_attribute("data-page", JSON.stringify(initialPage), 0)}>${validate_component(App, "App").$$render($$result, {}, {}, {})}</div>`;
 });
-async function createInertiaApp({ id = "app", resolve, setup, progress = {}, page }) {
+async function createInertiaApp({ id = "app", resolve, setup, progress = {}, page: page2 }) {
   const isServer = typeof window === "undefined";
   const el = isServer ? null : document.getElementById(id);
-  const initialPage = page || JSON.parse(el.dataset.page);
+  const initialPage = page2 || JSON.parse(el.dataset.page);
   const resolveComponent = (name) => Promise.resolve(resolve(name));
   await resolveComponent(initialPage.component).then((initialComponent) => {
     store.set({
@@ -283,10 +283,10 @@ async function createInertiaApp({ id = "app", resolve, setup, progress = {}, pag
     router.init({
       initialPage,
       resolveComponent,
-      swapComponent: async ({ component, page: page2, preserveState }) => {
+      swapComponent: async ({ component, page: page3, preserveState }) => {
         store.update((current) => ({
           component,
-          page: page2,
+          page: page3,
           key: preserveState ? current.key : Date.now()
         }));
       }
@@ -311,12 +311,12 @@ async function createInertiaApp({ id = "app", resolve, setup, progress = {}, pag
     };
   }
 }
-derived(store, ($store) => $store.page);
+const page = derived(store, ($store) => $store.page);
 createServer(
-  (page) => createInertiaApp({
-    page,
+  (page2) => createInertiaApp({
+    page: page2,
     resolve: (name) => {
-      const pages = /* @__PURE__ */ Object.assign({ "./Pages/Chat.svelte": () => import("./assets/Chat-ec4873be.js"), "./Pages/Counter.svelte": () => import("./assets/Counter-f4f25748.js"), "./Pages/Login.svelte": () => import("./assets/Login-402bbe55.js"), "./Pages/Register.svelte": () => import("./assets/Register-d54206d0.js") });
+      const pages = /* @__PURE__ */ Object.assign({ "./Pages/Chat.svelte": () => import("./assets/Chat-e006cd28.js"), "./Pages/Counter.svelte": () => import("./assets/Counter-f4f25748.js"), "./Pages/Login.svelte": () => import("./assets/Login-402bbe55.js"), "./Pages/Register.svelte": () => import("./assets/Register-d54206d0.js") });
       return pages[`./Pages/${name}.svelte`]();
     }
   })
@@ -327,6 +327,7 @@ export {
   create_ssr_component as c,
   each as d,
   escape as e,
+  page as p,
   subscribe as s,
   validate_component as v,
   writable as w
