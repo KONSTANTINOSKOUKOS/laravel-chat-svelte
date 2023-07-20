@@ -1,25 +1,22 @@
 <script>
     import { inertia } from "@inertiajs/svelte";
+    import { onMount } from "svelte";
+    import Echo from "@ably/laravel-echo";
+    import * as Ably from "ably";
+
     import Message from "@/Components/Message.svelte";
     import ChatForm from "@/Components/ChatForm.svelte";
+
     import { msgs } from "@/lib/msgs";
     import { user } from "@/lib/user";
     import { scrollBottom } from "@/lib/scroll";
-
-    import Echo from "@ably/laravel-echo";
-    import * as Ably from "ably";
-    import { onMount } from "svelte";
 
     export let _user;
     export let messages;
     export let newMsg;
 
     $user = _user;
-    if (newMsg) {
-        $msgs = [...$msgs, newMsg];
-    } else {
-        $msgs = messages;
-    }
+    $msgs = newMsg ? [...$msgs, newMsg] : messages;
 
     onMount(() => {
         scrollBottom();
@@ -54,15 +51,15 @@
 <a href="/a" use:inertia>go to /a</a>
 <ul class="my-28">
     {#each $msgs as msg}
-            <Message
-                msg={{
-                    content: msg.content,
-                    id: msg.id,
-                    author_name: msg.author_name,
-                    author_id: msg.author_id,
-                    author_avatar_url: msg.author_avatar_url,
-                }}
-            />
+        <Message
+            msg={{
+                content: msg.content,
+                id: msg.id,
+                author_name: msg.author_name,
+                author_id: msg.author_id,
+                author_avatar_url: msg.author_avatar_url,
+            }}
+        />
     {/each}
 </ul>
 <ChatForm />
