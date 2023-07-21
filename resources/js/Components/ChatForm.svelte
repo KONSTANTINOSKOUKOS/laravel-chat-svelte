@@ -3,13 +3,15 @@
     import { scrollBottom } from "@/lib/scroll";
     import { useForm } from "@inertiajs/svelte";
     import UserItem from "@/Components/UserItem.svelte";
+    import { whisperTyping } from "@/lib/echo";
 
     let form = useForm({
         content: "",
-        user_id: $user.id,
     });
 
     async function send() {
+        if ($form.content.trim() == "") return;
+
         $form.post("/", {
             onFinish: () => {
                 $form.reset();
@@ -18,6 +20,10 @@
             only: ["newMsg"],
             preserveScroll: true,
         });
+    }
+
+    function typing() {
+        whisperTyping();
     }
 </script>
 
@@ -42,6 +48,7 @@
         class="join md:w-5/12 w-full mx-auto my-4"
     >
         <input
+            on:input={typing}
             required
             bind:value={$form.content}
             type="text"
@@ -50,7 +57,7 @@
         />
         <button
             type="submit"
-            disabled={$form.processing}
+            disabled={$form.processing || $form.content.trim() == ""}
             class="btn btn-primary h-max join-item {$form.processing
                 ? 'btn-disabled cursor-not-allowed'
                 : ''}"

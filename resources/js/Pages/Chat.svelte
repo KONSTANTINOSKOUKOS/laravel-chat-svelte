@@ -1,8 +1,6 @@
 <script>
     import { inertia } from "@inertiajs/svelte";
     import { onMount } from "svelte";
-    import Echo from "@ably/laravel-echo";
-    import * as Ably from "ably";
 
     import Message from "@/Components/Message.svelte";
     import ChatForm from "@/Components/ChatForm.svelte";
@@ -10,6 +8,7 @@
     import { msgs } from "@/lib/msgs";
     import { user } from "@/lib/user";
     import { scrollBottom } from "@/lib/scroll";
+    import { listenMsg } from "@/lib/echo";
 
     export let _user;
     export let messages;
@@ -20,24 +19,7 @@
 
     onMount(() => {
         scrollBottom();
-
-        window.Ably = Ably;
-        const echo = new Echo({
-            broadcaster: "ably",
-        });
-
-        echo.connector.ably.connection.on((stateChange) => {
-            console.log(stateChange.current);
-            if (stateChange.current === "connected") {
-                console.log("connected to ably server");
-            }
-        });
-
-        echo.channel("messages").listen(".MessageCreated", ({ model }) => {
-            console.log("realtime message:", model);
-            $msgs = [...$msgs, model];
-            scrollBottom();
-        });
+       listenMsg();
     });
 </script>
 

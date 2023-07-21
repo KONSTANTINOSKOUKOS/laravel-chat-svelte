@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -37,6 +38,7 @@ class Message extends Model
     function toArray()
     {
         return [
+            'id' => $this->id,
             'content' => $this->content,
             'author_name' => $this->user->name,
             'author_id' => $this->user->id,
@@ -48,7 +50,7 @@ class Message extends Model
     {
         return match ($e) {
             default => [],
-            'created' => [new Channel('messages')]
+            'created' => [new PresenceChannel('messages')]
         };
     }
 
