@@ -18,6 +18,7 @@ class Message extends Model
 
     protected $table = 'messages';
     protected $primaryKey = 'id';
+    protected $keyType = 'string';
 
     protected $fillable = [
         'content',

@@ -19,7 +19,7 @@
 
     onMount(() => {
         scrollBottom();
-       listenMsg();
+        listenMsg();
     });
 </script>
 
