@@ -1,9 +1,7 @@
 <script>
-    import { user } from "@/lib/user";
     import { scrollBottom } from "@/lib/scroll";
     import { useForm } from "@inertiajs/svelte";
     import UserItem from "@/Components/UserItem.svelte";
-    import { whisperTyping } from "@/lib/echo";
 
     let form = useForm({
         content: "",
@@ -20,10 +18,6 @@
             only: ["newMsg"],
             preserveScroll: true,
         });
-    }
-
-    function typing() {
-        whisperTyping();
     }
 </script>
 
@@ -48,7 +42,6 @@
         class="join md:w-5/12 w-full mx-auto my-4"
     >
         <input
-            on:input={typing}
             required
             bind:value={$form.content}
             type="text"

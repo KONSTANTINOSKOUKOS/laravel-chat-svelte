@@ -35,7 +35,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', [MessagesController::class, 'index']);
     Route::post('/', [MessagesController::class, 'store']);
-    Route::patch('/', [MessagesController::class, 'update']);
 });
 
 

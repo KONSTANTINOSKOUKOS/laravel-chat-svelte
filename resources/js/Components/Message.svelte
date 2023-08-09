@@ -1,33 +1,12 @@
 <script>
     import { user } from "@/lib/user";
-    import { page } from "@inertiajs/svelte";
-    import axios from "axios";
     /**
      * @type {{content: string, id: string, author_name: string, author_id: string, author_avatar_url?: string}}
      */
     export let msg;
 
-    let liked = false;
-
     function ismine() {
         return msg.author_id == $user.id;
-    }
-
-    function like() {
-        liked = !liked;
-
-        axios.patch(
-            "/",
-            { liked },
-            {
-                headers: {
-                    "X-Inertia": true,
-                    "X-Inertia-Version": $page.version,
-                    "X-Inertia-Partial-Component": "Chat",
-                    "X-Inertia-Partial-Data": "messages",
-                },
-            }
-        );
     }
 </script>
 
@@ -50,8 +29,4 @@
     >
         {msg.content}
     </div>
-    <button
-        class="chat-footer btn btn-circle btn-primary text-xl"
-        on:click={like}>{liked ? "❤️" : "🤍"}</button
-    >
 </li>

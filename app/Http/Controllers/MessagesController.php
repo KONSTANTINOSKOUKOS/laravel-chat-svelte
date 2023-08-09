@@ -42,15 +42,4 @@ class MessagesController extends Controller
 
         return $this->render(null, $newMsg);
     }
-
-    public function update(Request $req)
-    {
-        if (!auth()->check()) return redirect('/login');
-
-        $req->validate([
-            'liked' => ['required', 'boolean']
-        ]);
-
-        return response()->json(['validated' => true]);
-    }
 }
